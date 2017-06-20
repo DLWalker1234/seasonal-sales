@@ -5,6 +5,19 @@ console.log("hello");
 let products = null;
 let categories = null;
 
+function displayProducts(productArr) {
+	let productWrapper = document.getElementById("product-wrapper");
+	let cardArr = productArr.map( function(product) {
+		return buildCard(product)
+	})
+	console.log("cardArr", cardArr);
+	cardArr.forEach( function(card) {
+		let cardWrapper = document.createElement("article");
+		cardWrapper.innerHTML = card;
+		productWraper.appendChild(cardWrapper)
+	});
+}
+
 function buildDOMObj() {
 	//loop through products and categories to grab Prd name, Dpt, Price and cat ID
 	let productArr = products.map( function(product) {
@@ -16,12 +29,19 @@ function buildDOMObj() {
 		let categoryItem = categories.filter( function(category) {
 			return category.id === currentProduct.category_id;
 		})
-		let prodObj = {dept: categoryItem[0].name}
+		let prodObj = {
+			dept: categoryItem[0].name,
+			name: currentProduct.name,
+			price: currentProduct.price,
+			catId: currentProduct.category_id
+		}
 		return prodObj 
 	})
 	console.log("prod object", productArr)
 
 }
+
+
 
 function buildCard(prodObj) {
 	let card = `<div class="prodCard">
@@ -35,7 +55,7 @@ let TempObj = {name: "furby",dept: "Toys", price: 12.75}
 console.log("card", buildCard(TempObj));
 
 
-function displayProducts() {
+function setProducts() {
 	products = JSON.parse(productsJSON).products;
 }
 
@@ -51,7 +71,7 @@ function getCategories() {
 	reqCats.send();
 }
 
-function getProducts() {
+function getProducts(productsJSON) {
 	let reqProducts = new XMLHttpRequest();
 	reqProducts.addEventListener("load", setProducts);
 	reqProducts.open("GET", "data-files/products.json");
