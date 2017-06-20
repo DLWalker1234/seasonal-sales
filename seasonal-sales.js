@@ -18,6 +18,20 @@ function displayProducts(productArr) {
 	});
 }
 
+document.getElementById("dropdown").addEventListener("change", function() {
+	let selectedSeason = event.target.value
+	console.log("selected Season", selectedSeason);
+	let seasonCategory = categories.filter( function(category) {
+		return category.season_discount.toLowerCase() === selectedSeason.toLowerCase();
+	})
+	let discount = seasonCategory[0].discount;
+	let prodCards = documnet.getElementByClassName("prodCard")
+	prodCards.forEach( function(card) {
+		if (card.getAttribute("data-catId" === catId))
+	}
+}
+// grab the value, lowercase it, compate it to the categories data to find the correct discount
+
 function buildDOMObj() {
 	//loop through products and categories to grab Prd name, Dpt, Price and cat ID
 	let productArr = products.map( function(product) {
@@ -47,13 +61,15 @@ function buildCard(prodObj) {
 	let card = `<div class="prodCard">
 					<h2>${prodObj.name}</h2>
 					<h3>${prodObj.dept}</h3>
-					<p>${prodObj.price}</p>
+					<p>$${prodObj.price}</p>
+					<p class="isHidden">$${prodObj.desountedPrice}</p>
 					</div>`;
 	return card;
 }
-let TempObj = {name: "furby",dept: "Toys", price: 12.75}
-console.log("card", buildCard(TempObj));
 
+function calculateDiscountPrice(origPrice, discount) {
+	return +(origPrce * (1.00 - discount)).toFixed(2)
+}
 
 function setProducts() {
 	products = JSON.parse(productsJSON).products;
